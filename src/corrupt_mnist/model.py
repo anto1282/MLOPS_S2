@@ -22,14 +22,15 @@ class MyAwesomeModel(nn.Module):
         self.output = nn.Sequential(
             nn.Linear(256 * 7 * 7, 128),
             nn.ReLU(),
-            nn.Linear(128, 10),
-            nn.Dropout(0.4),
         )
+        self.fc = nn.Sequential(nn.Linear(128, 10),
+            nn.Dropout(0.4))
 
     def forward(self, x):
         x = self.Conv(x)
         x = torch.flatten(x, start_dim=1)
         x = self.output(x)
+        x = self.fc(x)
         return x
 
 

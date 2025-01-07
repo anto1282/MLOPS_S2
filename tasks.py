@@ -33,19 +33,22 @@ def dev_requirements(ctx: Context) -> None:
 @task
 def preprocess_data(ctx: Context) -> None:
     """Preprocess data."""
-    ctx.run(f"python src/{PROJECT_NAME}/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/{PROJECT_NAME}/data.py data/raw/corruptmnist_v1 data/processed", echo=True, pty=not WINDOWS)
 
 @task
-def train(ctx: Context) -> None:
+def train(ctx: Context, e: int = 10, l: float = 1e-3, batch:int = 64) -> None:
     """Train model."""
-    ctx.run(f"python src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/{PROJECT_NAME}/train.py --lr {l} --epochs {e} --batch_size {batch}", echo=True, pty=not WINDOWS)
 
 @task
 def test(ctx: Context) -> None:
     """Run tests."""
     ctx.run("coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("coverage report -m", echo=True, pty=not WINDOWS)
-
+@task
+def evaluate(ctx: Context, name: str) -> None:
+    """Evaluate model"""
+    ctx.run(f"python src/corrupt_mnist/evaluate.py --model-checkpoint {name}", echo=True, pty=not WINDOWS)
 @task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""

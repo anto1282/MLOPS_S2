@@ -27,16 +27,16 @@ class corruptMnistDataset(Dataset):
 
 def preprocess_data(raw_dir: str, processed_dir: str) -> None:
     train_images = torch.stack(
-        [torch.load(raw_dir + f"/train_images_{x}.pt") for x in range(0, 6)],
+        [torch.load(raw_dir + f"/train_images_{x}.pt", weights_only=False) for x in range(0, 6)],
         dim=0,
     ).flatten(end_dim=1)
     train_targets = torch.stack(
-        [torch.load(raw_dir + f"/train_target_{x}.pt") for x in range(0, 6)],
+        [torch.load(raw_dir + f"/train_target_{x}.pt", weights_only=False) for x in range(0, 6)],
         dim=0,
     ).flatten(end_dim=1)
 
-    test_images = torch.load(raw_dir + "/test_images.pt")
-    test_targets = torch.load(raw_dir + "/test_target.pt")
+    test_images = torch.load(raw_dir + "/test_images.pt", weights_only=False)
+    test_targets = torch.load(raw_dir + "/test_target.pt", weights_only=False)
 
     train_images = train_images.unsqueeze(1).float()
     test_images = test_images.unsqueeze(1).float()
@@ -54,10 +54,10 @@ def preprocess_data(raw_dir: str, processed_dir: str) -> None:
 
 
 def corrupt_mnist(batchsize=64):
-    train_images = torch.load("data/processed/train_images.pt")
-    train_targets = torch.load("data/processed/train_target.pt")
-    test_images = torch.load("data/processed/test_images.pt")
-    test_targets = torch.load("data/processed/test_target.pt")
+    train_images = torch.load("data/processed/train_images.pt", weights_only=False)
+    train_targets = torch.load("data/processed/train_target.pt", weights_only=False)
+    test_images = torch.load("data/processed/test_images.pt", weights_only=False)
+    test_targets = torch.load("data/processed/test_target.pt", weights_only=False)
 
     train_set = corruptMnistDataset(train_images, train_targets)
     test_set = corruptMnistDataset(test_images, test_targets)

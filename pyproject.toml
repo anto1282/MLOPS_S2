@@ -31,3 +31,6 @@ lint.select = ["I"]
 
 [tool.coverage.run]
 omit = ["tests/*"]
+
+[project.scripts]
+train = "corrupt_mnist.train:main"

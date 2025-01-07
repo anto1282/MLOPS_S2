@@ -1,7 +1,7 @@
 import torch
 import typer
 from data import corrupt_mnist
-from corrupt_mnist.src.corrupt_mnist.model import MyAwesomeModel
+from model import MyAwesomeModel
 
 app = typer.Typer()
 DEVICE = torch.device(
@@ -27,7 +27,6 @@ def evaluate(model_checkpoint: str = "models/My_model.pt") -> None:
     model.eval()
     correct, total = 0, 0
     for img, target in test_dataloader:
-        img = img.unsqueeze(1)
         y_pred = model(img)
         correct += (y_pred.argmax(dim=1) == target).float().sum().item()
         total += target.size(0)
