@@ -8,7 +8,7 @@ class MyAwesomeModel(nn.Module):
     def __init__(self, image_size, first_channels) -> None:
         super().__init__()
         final_image_size = image_size/4
-        
+
         self.Conv = nn.Sequential(
             nn.Conv2d(1, first_channels, 3, padding=1),
             nn.ReLU(),
@@ -33,15 +33,15 @@ class MyAwesomeModel(nn.Module):
         x = self.output(x)
         x = self.fc(x)
         return x
-    
+
 @hydra.main("configs/model.yaml")
 def main(cfg):
-    
+
     image_size = cfg.hyperparameters.image_size
     first_channels = cfg.hyperparameters.first_channels
-    
+
     model = MyAwesomeModel(image_size,first_channels)
-    
+
     print(f"Model architecture: {model}")
     print(
         f"Number of parameters: {sum(p.numel() for p in model.parameters())}"
@@ -50,9 +50,9 @@ def main(cfg):
     dummy_input = torch.randn(1, 1, image_size, image_size)
     output = model(dummy_input)
     print(f"Output shape: {output.shape}")
-    
+
     return model
-    
+
 
 if __name__ == "__main__":
     model = main()

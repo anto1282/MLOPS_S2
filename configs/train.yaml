@@ -5,4 +5,4 @@ hyperparameters:
     epochs: 20
     seed: 42
     image_dim: 28
-    dataset_path: "corruptmnist_v1" 
+    dataset_path: "corruptmnist_v1"

@@ -29,7 +29,7 @@ def train(cfg) -> None:
     lr = cfg.hyperparameters.lr
     batch_size = cfg.hyperparameters.batch_size
     epochs = cfg.hyperparameters.epochs
-    
+
     print(f"{lr=}, {batch_size=}, {epochs=}")
 
     model = MyAwesomeModel().to(DEVICE)
