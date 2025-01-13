@@ -2,7 +2,6 @@
 import torch
 import typer
 import os
-print(os.getcwd())
 from data import corrupt_mnist
 from model import MyAwesomeModel
 from torch import optim
@@ -10,6 +9,7 @@ from tqdm import tqdm
 from torch import nn
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
+import hydra
 
 app = typer.Typer()
 
@@ -22,10 +22,14 @@ DEVICE = torch.device(
 )
 
 
-
-def train(lr: float = 1e-3, epochs: int = 10, batch_size: int = 64) -> None:
+@hydra.main(config_name="train.yaml")
+def train(cfg) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
+    lr = cfg.hyperparameters.lr
+    batch_size = cfg.hyperparameters.batch_size
+    epochs = cfg.hyperparameters.epochs
+    
     print(f"{lr=}, {batch_size=}, {epochs=}")
 
     model = MyAwesomeModel().to(DEVICE)

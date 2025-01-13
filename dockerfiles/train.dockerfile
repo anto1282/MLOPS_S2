@@ -5,13 +5,20 @@ RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir /root/.cache/
+RUN mkdir /root/.cache/pip/
+COPY mlops_cache/ /root/.cache/pip/
+
 COPY src src/
 COPY requirements.txt requirements.txt
 COPY requirements_dev.txt requirements_dev.txt
 COPY README.md README.md
 COPY pyproject.toml pyproject.toml
+COPY data data/
 
-RUN pip install -r requirements.txt --no-cache-dir --verbose
+WORKDIR /
+RUN pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose
+
 
 ENTRYPOINT ["python", "-u", "src/corrupt_mnist/train.py"]
